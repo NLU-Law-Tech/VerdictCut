@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: VerdictCut
+Version: 0.0.3
+Summary: cut the verdict into different part
+Home-page: https://github.com/pypa/sampleproject
+Author: seanbbear
+Author-email: k7489759@gmail.com
+License: UNKNOWN
+Description: # Cut the verdict
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
