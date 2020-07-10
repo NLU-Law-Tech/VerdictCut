@@ -17,7 +17,7 @@
     |           |-- find_maintext.py
     |           |-- find_roles.py
     |           |-- __init__.py
-    |-- VerdictCut **//only edited here**
+    |-- VerdictCut `//only edited here`
     |   |-- find_fact.py
     |   |-- find_justice.py
     |   |-- find_laws.py
