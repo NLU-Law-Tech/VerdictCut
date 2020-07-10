@@ -1,6 +1,9 @@
 import re
 import json
 
+def find_fact(judgement):
+    return 0
+
 # 讀取裁判(judgement)全文
 def loadData():
     judgement = []

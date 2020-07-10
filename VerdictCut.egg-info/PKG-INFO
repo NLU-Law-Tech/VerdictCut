@@ -1,12 +1,43 @@
 Metadata-Version: 2.1
 Name: VerdictCut
-Version: 0.0.3
+Version: 0.0.4
 Summary: cut the verdict into different part
 Home-page: https://github.com/pypa/sampleproject
 Author: seanbbear
 Author-email: k7489759@gmail.com
 License: UNKNOWN
 Description: # Cut the verdict
+        ```
+        |-- undefined
+            |-- LICENSE.txt
+            |-- package-lock.json
+            |-- push.sh
+            |-- README.md
+            |-- setup.py
+            |-- build
+            |   |-- bdist.win32
+            |   |-- lib
+            |       |-- VerdictCut
+            |           |-- find_fact.py
+            |           |-- find_justice.py
+            |           |-- find_laws.py
+            |           |-- find_maintext.py
+            |           |-- find_roles.py
+            |           |-- __init__.py
+            |-- VerdictCut 
+            |   |-- find_fact.py
+            |   |-- find_justice.py
+            |   |-- find_laws.py
+            |   |-- find_maintext.py
+            |   |-- find_roles.py
+            |   |-- __init__.py
+            |-- VerdictCut.egg-info
+                |-- dependency_links.txt
+                |-- PKG-INFO
+                |-- SOURCES.txt
+                |-- top_level.txt
+        ```
+        
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License

@@ -2,6 +2,9 @@
 import json
 import re
 
+def find_maintext(judgement):
+    return 0
+
 # 提取主文
 def extract_main_text(text, break_line='\r\n'):
     # input: 整個判決書文本(judgement欄位)
