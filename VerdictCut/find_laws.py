@@ -3,6 +3,7 @@ import json
 import re
 
 def find_laws(judgement):
+    print()
     return 0
 
 def extract_law_text(text):
