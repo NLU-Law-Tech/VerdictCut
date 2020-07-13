@@ -9,8 +9,7 @@ def find_justice(judgement):
 # 讀取裁判(judgement)全文
 def loadData():
     judgement = []
-    # with open('./law.json','r',encoding='utf-8') as f:
-    with open('./real_law/dump20000.json','r',encoding='utf-8') as f:   
+    with open('./real_law/dump200.json','r',encoding='utf-8') as f:   
         for line in f.readlines():
             doc = json.loads(line)
             jud = doc['judgement']
