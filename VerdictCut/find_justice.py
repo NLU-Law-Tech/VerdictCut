@@ -79,9 +79,9 @@ def find_justice(judgement, break_line = '\r\n'):
         fs = ''
     return fs
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    data = loadData()
+    # data = loadData()
 
     # i = 0
     # print(data[i]+'\n')
@@ -90,9 +90,9 @@ if __name__ == "__main__":
     # print('---------用類似論罪科刑的寫法去找---------\n')
     # print(extract_justice(data[i]))
 
-    justice_dict = {}
-    for i, justice in enumerate(data):
-        justice_dict.setdefault(i, find_justice(justice))
+    # justice_dict = {}
+    # for i, justice in enumerate(data):
+    #     justice_dict.setdefault(i, find_justice(justice))
 
     # 計算空值
     # count = 0
