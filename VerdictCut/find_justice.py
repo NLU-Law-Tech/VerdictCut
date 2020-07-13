@@ -1,11 +1,6 @@
 import re
 import json
 
-def find_justice(judgement):
-
-    justice = extract_justice(judgement, break_line = '\r\n')    
-    return justice
-
 # 讀取裁判(judgement)全文
 def loadData():
     judgement = []
@@ -45,7 +40,7 @@ def fail2find(judgement, justice, end_list):
     return fs
 
 # 提取疑似論罪科刑的部分
-def extract_justice(judgement, break_line = '\r\n'):
+def find_justice(judgement, break_line = '\r\n'):
 
     reg_break_line = break_line.replace('\r','\\\r')
     reg_break_line = reg_break_line.replace('\n','\\\n')
@@ -97,7 +92,7 @@ if __name__ == "__main__":
 
     justice_dict = {}
     for i, justice in enumerate(data):
-        justice_dict.setdefault(i, extract_justice(justice))
+        justice_dict.setdefault(i, find_justice(justice))
 
     # 計算空值
     # count = 0

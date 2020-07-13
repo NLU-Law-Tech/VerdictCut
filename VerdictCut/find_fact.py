@@ -1,11 +1,9 @@
 import re
 import json
 
-def find_fact(judgement):
-
-    fact = extract_fact(judgement, break_line='\r\n')
-    fact_dict = geteachParagraph(fact, break_line='\r\n')
-
+def find_fact(judgement, break_line='\r\n'):
+    fact = extract_fact(judgement, break_line= break_line)
+    fact_dict = geteachParagraph(fact, break_line= break_line)
     return fact_dict
 
 # 讀取裁判(judgement)全文

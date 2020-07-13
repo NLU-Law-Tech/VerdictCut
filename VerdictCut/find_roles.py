@@ -51,18 +51,3 @@ def find_roles(cj_doc, target_roles = ['上訴人','被告','選任辯護人'],\
             people.remove(person)
 
     return people
-
-# 讀取裁判(judgement)全文
-def loadData():
-    judgement = []
-    with open('./law.json','r',encoding='utf-8') as f:
-        for line in f.readlines():
-            doc = json.loads(line)
-            jud = doc['judgement']
-            judgement.append(jud)
-    return judgement
-
-if __name__ == "__main__":
-    data = loadData()    
-    people = find_roles(data[7])
-    print(people)

@@ -2,12 +2,8 @@
 import json
 import re
 
-def find_maintext(judgement, break_line='\r\n'):
-    main_text = extract_main_text(judgement, break_line)
-    return main_text
-
 # 提取主文
-def extract_main_text(text, break_line='\r\n'):
+def find_maintext(text, break_line='\r\n'):
     # input: 整個判決書文本(judgement欄位)
     # output:	從判決書全文擷取出"主文"的部分
 
@@ -112,7 +108,7 @@ if __name__ == "__main__":
 
     for data in all_data:
         count = count + 1
-        main_text = extract_main_text(data["judgement"])     # 提取主文
+        main_text = find_maintext(data["judgement"])     # 提取主文
         main_text_dict[str(count)] = {}
         main_text_dict[str(count)]["主文"] = main_text
         main_text_dict[str(count)]["judgement"] = remove_character(data["judgement"])

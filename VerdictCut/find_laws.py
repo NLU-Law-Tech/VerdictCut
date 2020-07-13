@@ -2,13 +2,7 @@
 import json
 import re
 
-def find_laws(judgement):
-    laws_list=extract_laws(judgement)
-    return laws_list
-
-
-def extract_laws(judgement):
-    break_line='\r\n'
+def find_laws(judgement,break_line='\r\n'):
     appendix_law_list=get_appendix_law_list()
     table_list=get_table_list()
     all_laws_list=get_all_laws_list()
