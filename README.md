@@ -29,3 +29,9 @@
         |-- SOURCES.txt
         |-- top_level.txt
 ```
+## API
+### VerdictCut.find_fact
+### VerdictCut.find_justice
+### VerdictCut.find_laws
+### VerdictCut.find_maintext
+### VerdictCut.find_roles
