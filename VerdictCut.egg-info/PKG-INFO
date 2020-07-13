@@ -1,43 +1,52 @@
 Metadata-Version: 2.1
 Name: VerdictCut
-Version: 0.0.4
+Version: 0.0.7
 Summary: cut the verdict into different part
-Home-page: https://github.com/pypa/sampleproject
+Home-page: https://github.com/seanbbear/VerdictCut
 Author: seanbbear
 Author-email: k7489759@gmail.com
 License: UNKNOWN
-Description: # Cut the verdict
-        ```
-        |-- undefined
-            |-- LICENSE.txt
-            |-- package-lock.json
-            |-- push.sh
-            |-- README.md
-            |-- setup.py
-            |-- build
-            |   |-- bdist.win32
-            |   |-- lib
-            |       |-- VerdictCut
-            |           |-- find_fact.py
-            |           |-- find_justice.py
-            |           |-- find_laws.py
-            |           |-- find_maintext.py
-            |           |-- find_roles.py
-            |           |-- __init__.py
-            |-- VerdictCut 
-            |   |-- find_fact.py
-            |   |-- find_justice.py
-            |   |-- find_laws.py
-            |   |-- find_maintext.py
-            |   |-- find_roles.py
-            |   |-- __init__.py
-            |-- VerdictCut.egg-info
-                |-- dependency_links.txt
-                |-- PKG-INFO
-                |-- SOURCES.txt
-                |-- top_level.txt
+Description: # 判決書段落分割
+        ## 使用方法
+        安裝套件
+        `
+            pip install VerdictCut
+        `
+        
+        找事實
+        ```python
+        from VerdictCut import find_fact
+        fact = find_fact(text)
+        print(fact)
         ```
         
+        找論罪科刑
+        ```python
+        from VerdictCut import find_justice
+        justice = find_justice(text)
+        print(justice)
+        ```
+        
+        找附錄法條
+        ```python
+        from VerdictCut import find_laws
+        laws = find_laws(laws))
+        print(laws)
+        ```
+        
+        找主文
+        ```python
+        from VerdictCut import find_maintext
+        maintext = find_maintext(text)
+        print(maintext)
+        ```
+        
+        找人物
+        ```python
+        from VerdictCut import find_roles
+        roles = find_roles(text)
+        print(roles)
+        ```
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
