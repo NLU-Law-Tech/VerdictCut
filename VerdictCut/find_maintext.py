@@ -2,8 +2,9 @@
 import json
 import re
 
-def find_maintext(judgement):
-    return 0
+def find_maintext(judgement, break_line='\r\n'):
+    main_text = extract_main_text(judgement, break_line)
+    return main_text
 
 # 提取主文
 def extract_main_text(text, break_line='\r\n'):
