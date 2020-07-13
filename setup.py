@@ -3,18 +3,18 @@ import setuptools
 # readme.md = github readme.md, 這裡可接受markdown寫法
 # 如果沒有的話，需要自己打出介紹此專案的檔案，再讓程式知道
 
-with open("README.md", "r") as fh:
+with open("Discription.md", "r",encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="VerdictCut", # 
-    version='0.0.4',
+    version='0.0.7',
     author="seanbbear",
     author_email="k7489759@gmail.com",
     description="cut the verdict into different part",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/seanbbear/VerdictCut",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

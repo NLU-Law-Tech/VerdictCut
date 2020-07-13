@@ -1,0 +1,41 @@
+# 判決書段落分割
+## 使用方法
+安裝套件
+`
+    pip install VerdictCut
+`
+
+找事實
+```python
+from VerdictCut import find_fact
+fact = find_fact(text)
+print(fact)
+```
+
+找論罪科刑
+```python
+from VerdictCut import find_justice
+justice = find_justice(text)
+print(justice)
+```
+
+找附錄法條
+```python
+from VerdictCut import find_laws
+laws = find_laws(laws))
+print(laws)
+```
+
+找主文
+```python
+from VerdictCut import find_maintext
+maintext = find_maintext(text)
+print(maintext)
+```
+
+找人物
+```python
+from VerdictCut import find_roles
+roles = find_roles(text)
+print(roles)
+```
