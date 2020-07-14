@@ -27,13 +27,19 @@ def regex_law(law,text):
     if regx_text in law:
         law_posistion=re.search(regx_text,text)
         # 開頭
-        temp_opening=text[:law_posistion.end()]
+        # temp_opening=text[:law_posistion.end()]
+        # 以執掌法條當開頭
+        temp_opening=law
         # 結尾
         temp_text=text[law_posistion.end():]
         result=extract_SPA(temp_text)
         return temp_opening+result
     else:
-        result =extract_SPA(text)
+        # 先去掉款項條後面的文字或符號
+        temp_text =extract_SPA(text)
+        # 以執掌法條當開頭
+        law_posistion=re.search(law,text)
+        result=temp_text[law_posistion.start():]
         return result 
 def extract_SPA(text):
     rgs_list=["款","項","條"]
@@ -168,9 +174,10 @@ def get_all_laws_list():
                     '保險法', '證券投資信託及顧問法', '證券投資人及期貨交易人保護法']
     return all_laws_list
 
+#測試用#
 if __name__ == "__main__":
     docs = []
-    with open('./VerdictCut/data/dump200.txt','r',encoding='utf-8') as f:
+    with open('C:/Yao/ITRI/Work/Project/law_judge/data/dump20000.txt','r',encoding='utf-8') as f:
         for line in f.readlines():
             doc = json.loads(line)      
             docs.append(doc)
@@ -179,5 +186,11 @@ if __name__ == "__main__":
     appendix_law_list=get_appendix_law_list()
     table_list=get_table_list()
     all_laws_list=get_all_laws_list()
-    judgement=docs[3]["judgement"]
-    law_list=find_laws(judgement)
+    # law_list=find_laws(judgement)
+    dicct={}
+    for key in range(len(docs)) :
+        judgement=docs[key]["judgement"]
+        law_list=find_laws(judgement)
+        dicct[key]=law_list
+    with open("C:/Yao/ITRI/Work/Project/law_judge/law_list_file/law_list_19605.txt",'w',encoding='utf-8') as f:
+        json.dump(dicct,f,ensure_ascii=False)

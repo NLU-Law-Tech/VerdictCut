@@ -11,7 +11,7 @@ def find_name_and_law(judgement,break_line='\r\n'):
     name_and_law=[]
     for txt in text_list:
         for person in name_list:
-            if person not in txt or person ==" ":
+            if person not in txt or person.strip() =="":
                 continue
             else:
                 for law in laws_list:
