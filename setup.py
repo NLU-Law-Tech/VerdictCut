@@ -8,7 +8,7 @@ with open("Discription.md", "r",encoding="utf-8") as fh:
 
 setuptools.setup(
     name="VerdictCut", # 
-    version='0.0.7',
+    version='0.0.8',
     author="seanbbear",
     author_email="k7489759@gmail.com",
     description="cut the verdict into different part",
