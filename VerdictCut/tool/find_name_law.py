@@ -3,10 +3,10 @@ import re
 from ..find_roles import find_roles
 from ..find_laws import find_laws
 
-def find_name_and_law(judgement):
-    laws_list=find_laws(judgement)
+def find_name_and_law(judgement,break_line='\r\n'):
+    laws_list=find_laws(judgement,break_line=break_line)
     # print(laws_list)
-    people_list=find_roles(judgement)
+    people_list=find_roles(judgement,break_line=break_line)
     text_list=judgement.split("。")
     name_and_law=[]
     for txt in text_list:
