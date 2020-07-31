@@ -1,8 +1,15 @@
 from ckiptagger import data_utils, construct_dictionary, WS, POS, NER
+import tensorflow as tf
 import os
 
 class get_units_list():
-    def __init__(self, ckip_data_path = '/tf/itri/ckiptagger/data', disable_cuda = True):
+    def __init__(self, ckip_data_path = '/tf/itri/ckiptagger/data', disable_cuda = True, memory_limit=1024):
+        gpus = tf.config.experimental.list_physical_devices('GPU')
+        if gpus:
+            try:
+                tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit)])
+            except RuntimeError as e:
+                print(e)
         self.ws = WS(ckip_data_path, disable_cuda=disable_cuda)
         self.pos = POS(ckip_data_path, disable_cuda=disable_cuda)
         self.ner = NER(ckip_data_path, disable_cuda=disable_cuda)
