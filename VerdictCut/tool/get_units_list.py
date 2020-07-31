@@ -7,27 +7,38 @@ class get_units_list():
         self.pos = POS(ckip_data_path, disable_cuda=disable_cuda)
         self.ner = NER(ckip_data_path, disable_cuda=disable_cuda)
         
-    def slice_data(self, org_sentence, window_size = 200, overlap = 50):
-        org_sentence_list = []
+    def slice_data(self, org_sentence, batch_size,window_size = 200, overlap = 50):
+        all_list = []
         pos = 0
+
         while( pos + window_size < len(org_sentence)):
-            org_sentence_list.append(org_sentence[pos:pos+window_size+overlap])
+            all_list.append(org_sentence[pos:pos+window_size+overlap])
             pos += window_size
-        org_sentence_list.append(org_sentence[len(org_sentence)-window_size-overlap:])
+        all_list.append(org_sentence[len(org_sentence)-window_size-overlap:])
+
+        org_sentence_list = []
+        for i in range(len(all_list)):
+            temp_list = []
+            temp_list.append(all_list[i])
+            org_sentence_list.append(temp_list)
+            
         return org_sentence_list
+    
        
-    def parse(self,org_sentence):
-        org_sentence_list = self.slice_data(org_sentence)
+    def parse(self,org_sentence, batch_size = 10):
+        org_sentence_list = self.slice_data(org_sentence,batch_size)
         org_list = []
         
-        word_sentence_list = self.ws(org_sentence_list)
-        pos_sentence_list = self.pos(word_sentence_list)
-        entity_sentence_list = self.ner(word_sentence_list, pos_sentence_list)
-        
-        for entity_sentence in entity_sentence_list:
-            for word in entity_sentence:
-                if word[2]=='ORG':
-                    org_list.append(word[3])
+        for i in range(len(org_sentence_list)):
+            word_sentence_list = self.ws(org_sentence_list[i])
+            pos_sentence_list = self.pos(word_sentence_list)
+            entity_sentence_list = self.ner(word_sentence_list, pos_sentence_list)
+            
+            for entity_sentence in entity_sentence_list:
+                for word in entity_sentence:
+                    if word[2]=='ORG':
+                        org_list.append(word[3])
+
         org_list = list(set(org_list))
         return org_list
     
