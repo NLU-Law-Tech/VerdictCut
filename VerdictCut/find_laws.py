@@ -13,7 +13,7 @@ def find_laws(judgement,break_line='\r\n'):
             for law in all_laws_list:
                 if law in data_text:
                     # print(key,regex_law(law,data_text))
-                    processed_law=regex_law(law,data_text)        
+                    processed_law=clean_data(regex_law(law,data_text),break_line)        
                     if processed_law in laws_list:
                         continue
                     else:
@@ -174,10 +174,16 @@ def get_all_laws_list():
                     '保險法', '證券投資信託及顧問法', '證券投資人及期貨交易人保護法']
     return all_laws_list
 
+# 資料清洗
+def clean_data(dirty_law,break_line):
+    # 先去空白 再去\r\n
+    clean_law=re.sub(break_line,"",re.sub(r"\s+","",dirty_law))
+    return clean_law
+
 #測試用#
 if __name__ == "__main__":
     docs = []
-    with open('C:/Yao/ITRI/Work/Project/law_judge/data/dump20000.txt','r',encoding='utf-8') as f:
+    with open('C:/Yao/ITRI/Work/Project/law_judge/data/dump200.txt','r',encoding='utf-8') as f:
         for line in f.readlines():
             doc = json.loads(line)      
             docs.append(doc)
