@@ -22,6 +22,16 @@ def find_laws(judgement, break_line='\r\n'):
                     continue
                 else:
                     laws_list.append(processed_law)
+    # 如果中華民國刑法已經找到,就刪除刑法的部分
+    # 保留含有細項的法條
+    laws_list_copy = laws_list.copy()
+    for law_c in laws_list_copy:
+        for law in laws_list:
+            if law_c == law:
+                continue
+            else:
+                if law in law_c and len(law_c) > len(law):
+                    laws_list.remove(law)
     return laws_list
 
 
