@@ -2,31 +2,111 @@ import json
 import re
 from ..find_roles import find_roles
 from ..find_laws import find_laws
+from ..find_laws import get_all_laws_list
+from ..find_justice import find_justice
 
-def find_name_and_law(judgement,break_line='\r\n'):
-    laws_list=find_laws(judgement,break_line=break_line)
-    people_dict=find_roles(judgement,target_roles=['被告'],break_line=break_line)
-    name_list=find_name(people_dict)
-    text_list=judgement.split("。")
-    name_and_law={}
 
+def find_name_and_law(judgement, break_line='\r\n'):
+    # 找附錄法條
+    appendix_laws_list = find_laws(judgement, break_line)
+    # 找論罪科刑
+    justice = clean_text(find_justice(judgement), break_line)
+
+    # 找被告
+    people_dict = find_roles(judgement, target_roles=[
+                             '被告'], break_line=break_line)
+    name_list = find_name(people_dict)
+    # 找執掌法條
+    all_laws_list = get_all_laws_list()
+    # 從論罪科刑裡面找法條
+    text_list = justice.split("。")
+
+    name_and_law = {}
     # init object for each person
-    for person in name_list:
-        name_and_law[person] = []
+    for name in name_list:
+        name_and_law[name] = []
 
-    for txt in text_list:
-        for person in name_list:
-            crime_laws = []
-            if person not in txt or person.strip() =="":
-                continue
-            else:
-                for law in laws_list:
-                    if (law in txt) and (law not in name_and_law[person]):
-                        name_and_law[person].append(law)
+    for name in name_list:
+        for text in text_list:
+            if name in text:
+                for law in all_laws_list:
+                    # 若有找到法條  把那些第幾項第幾條第幾款都列出來
+                    if re.search(law, text) != None:
+                        SPA_list = find_SPA(law, text)
+                        name_and_law[name].extend(SPA_list)
+
+    for name, laws_list in name_and_law.items():
+        for law in laws_list:
+            # 若在論罪科刑找到的法條沒在附錄法條
+            if law not in appendix_laws_list:
+                # 去掉款是否有在附錄法條
+                del_subpara_law = backspace_SP('第\d*款', law)
+                if del_subpara_law not in appendix_laws_list:
+                    # 去掉項是否有在附錄法條
+                    del_para_law = backspace_SP('第\d*項', law)
+                    if del_para_law not in appendix_laws_list:
+                        # 還是沒有的話就刪除該法條
+                        name_and_law[name].remove(law)
     return name_and_law
 
+
 def find_name(people_dict):
-    name_list=[]
+    name_list = []
     for index in range(len(people_dict)):
         name_list.append(people_dict[index]["name"])
     return name_list
+
+
+def find_all_laws_position_from_text(all_laws_list, judgement):
+    all_laws_position = {}
+    for law in all_laws_list:
+        if re.search(law, judgement) != None:
+            all_laws_position[law]
+    return all_laws_position
+
+
+# 資料清洗
+def clean_text(judgement, break_line='\r\n'):
+    # 去空白  去換行符號
+    clean_text = re.sub(break_line, "", re.sub(r"\s+", "", judgement))
+    return clean_text
+
+
+def find_SPA(law, text):
+    SPA_list = []
+
+    regex_SPA = "第\d*條第\d*項第\d*款"
+    regex_PA = "第\d*條第\d*項"
+    regex_A = "第\d*條"
+    # regex_article = "第.*條"
+    # regex_paragraph = "第.*項"
+    # regex_subparagraph = "第.*款"
+    SPA_list = re.findall(regex_SPA, text)
+    PA_list = re.findall(regex_PA, text)
+    A_list = re.findall(regex_A, text)
+
+    SPA_list.extend(set(SPA_list))
+    SPA_list.extend(set(PA_list))
+    SPA_list.extend(set(A_list))
+
+    SPA_list_copy = SPA_list.copy()
+    # 保留含有細項的法條
+    for SPA_c in SPA_list_copy:
+        for SPA in SPA_list:
+            if SPA_c == SPA:
+                continue
+            else:
+                if SPA in SPA_c and len(SPA_c) > len(SPA):
+                    SPA_list.remove(SPA)
+    #　加上法條名稱
+    for i in range(len(SPA_list)):
+        SPA_list[i] = law+SPA_list[i]
+    return SPA_list
+
+
+def backspace_SP(regex_str, law):
+    regex_position = re.search(regex_str, law)
+    if regex_position == None:
+        return law
+    else:
+        return law[:regex_position.start()]
