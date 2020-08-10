@@ -16,6 +16,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
     people_dict = find_roles(judgement, target_roles=[
                              '被告'], break_line=break_line)
     name_list = find_name(people_dict)
+
     # 找執掌法條
     all_laws_list = get_all_laws_list()
     # 從論罪科刑裡面找法條
@@ -25,6 +26,10 @@ def find_name_and_law(judgement, break_line='\r\n'):
     # init object for each person
     for name in name_list:
         name_and_law[name] = []
+    # 如果只有一個被告 則回傳附錄法條即可
+    if len(name_list) == 1:
+        name_and_law[name] = appendix_laws_list
+        return name_and_law
 
     for name in name_list:
         for text in text_list:
