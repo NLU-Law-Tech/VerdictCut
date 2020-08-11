@@ -20,6 +20,9 @@ def find_roles(cj_doc, target_roles = ['上訴人','被告','選任辯護人'],\
     last_index = 1
     for index,cj_doc_row in enumerate(cj_doc_rows):
         cj_doc_row = re.sub(encode_reg_role_clean_chars,"",cj_doc_row)
+        # 找到主文就可以結束了
+        if cj_doc_row=="主文":
+            break
         cj_doc_row_keep_full_space = cj_doc_row
         cj_doc_row = cj_doc_row.replace("　","")
         for role in _target_roles:

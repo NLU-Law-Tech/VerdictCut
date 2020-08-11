@@ -55,8 +55,15 @@ def find_name_and_law(judgement, break_line='\r\n'):
                     # 去掉項是否有在附錄法條
                     del_para_law = backspace_SP('第\d*項', law)
                     if del_para_law not in appendix_laws_list:
+                        # 換另一種方法找
+                        k=0
+                        for appendix_law in appendix_laws_list:
+                            # 對每個附錄法條都檢查是否含有剩下條的法
+                            if re.search(del_para_law,appendix_law) == None:
+                                k+=1
                         # 還是沒有的話就刪除該法條
-                        laws_list_copy.remove(law)
+                        if k==len(appendix_laws_list):
+                            laws_list_copy.remove(law)
         name_and_law[name] = laws_list_copy
     return name_and_law
 
