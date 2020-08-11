@@ -5,7 +5,6 @@ import re
 
 # 找附錄法條
 def find_laws(judgement, break_line='\r\n'):
-    print("124")
     appendix_law_list = get_appendix_law_list()
     table_list = get_table_list()
     all_laws_list = get_all_laws_list()
