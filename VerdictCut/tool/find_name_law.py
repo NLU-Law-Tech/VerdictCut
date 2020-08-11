@@ -40,8 +40,12 @@ def find_name_and_law(judgement, break_line='\r\n'):
                         SPA_list = translate(
                             appendix_laws_list, find_SPA(law, text))
                         name_and_law[name].extend(SPA_list)
+        # 去除重複
+        name_and_law[name] = list(set(name_and_law[name]))
 
     for name, laws_list in name_and_law.items():
+        # 複製
+        laws_list_copy = laws_list.copy()
         for law in laws_list:
             # 若在論罪科刑找到的法條沒在附錄法條
             if law not in appendix_laws_list:
@@ -52,13 +56,16 @@ def find_name_and_law(judgement, break_line='\r\n'):
                     del_para_law = backspace_SP('第\d*項', law)
                     if del_para_law not in appendix_laws_list:
                         # 還是沒有的話就刪除該法條
-                        name_and_law[name].remove(law)
+                        laws_list_copy.remove(law)
+        name_and_law[name] = laws_list_copy
     return name_and_law
 
 
 def find_name(people_dict):
     name_list = []
     for index in range(len(people_dict)):
+        if people_dict[index]["name"].strip() == '' or len(people_dict[index]["name"].strip())>5:
+            continue
         name_list.append(people_dict[index]["name"])
     return name_list
 
@@ -116,6 +123,7 @@ def backspace_SP(regex_str, law):
         return law
     else:
         return law[:regex_position.start()]
+
 
 def translate(appendix_laws_list, SPA_list):
     # 把論罪科刑找到法條的 "刑法" 寫成 "中華民國刑法"

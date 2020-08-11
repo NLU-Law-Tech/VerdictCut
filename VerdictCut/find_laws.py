@@ -117,12 +117,12 @@ def extract_law_paragraph(text, appendix_law_list, table_list):
 
 
 def get_appendix_law_list():
-    appendix_law_list = ["\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條"
-                         "\s*附\s*錄\s*本\s*件\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條\s*："
-                         "\s*附\s*本\s*件\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條"
-                         "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條"
-                         "\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條\s*："
-                         "\s*附\s*錄\s*：\s*本\s*案\s*論\s*罪\s*科\s*刑\s*法\s*條"
+    appendix_law_list = ["\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條",
+                         "\s*附\s*錄\s*本\s*件\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條\s*：",
+                         "\s*附\s*本\s*件\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條",
+                         "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條",
+                         "\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條\s*：",
+                         "\s*附\s*錄\s*：\s*本\s*案\s*論\s*罪\s*科\s*刑\s*法\s*條",
                          "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條",
                          "\s*附\s*錄\s*本\s*罪\s*論\s*罪\s*科\s*刑\s*法\s*條",
                          "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*之\s*法\s*條",
@@ -158,6 +158,7 @@ def get_appendix_law_list():
                          "\s*附\s*錄\s*論\s*罪",
                          "\s*論\s*罪\s*法\s*條",
                          "\s*附\s*錄\s*條\s*文",
+                         "\s*附\s*錄\s*法\s*條",
                          "\s*附\s*錄\s*:",
                          "\s*附\s*錄"
                          ]
