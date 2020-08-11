@@ -64,8 +64,6 @@ def find_name_and_law(judgement, break_line='\r\n'):
 def find_name(people_dict):
     name_list = []
     for index in range(len(people_dict)):
-        if people_dict[index]["name"].strip() == '' or len(people_dict[index]["name"].strip())>5:
-            continue
         name_list.append(people_dict[index]["name"])
     return name_list
 
