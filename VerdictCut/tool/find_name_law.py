@@ -37,7 +37,8 @@ def find_name_and_law(judgement, break_line='\r\n'):
                 for law in all_laws_list:
                     # 若有找到法條  把那些第幾項第幾條第幾款都列出來
                     if re.search(law, text) != None:
-                        SPA_list = find_SPA(law, text)
+                        SPA_list = translate(
+                            appendix_laws_list, find_SPA(law, text))
                         name_and_law[name].extend(SPA_list)
 
     for name, laws_list in name_and_law.items():
@@ -115,3 +116,18 @@ def backspace_SP(regex_str, law):
         return law
     else:
         return law[:regex_position.start()]
+
+def translate(appendix_laws_list, SPA_list):
+    # 把論罪科刑找到法條的 "刑法" 寫成 "中華民國刑法"
+    # 在 附錄法條是寫成中華民國刑法的條件下
+    bool_translate = False
+    for appendix_law in appendix_laws_list:
+        if re.search('中華民國刑法', appendix_law) != None:
+            bool_translate = True
+            break
+    if bool_translate:
+        for i in range(len(SPA_list)):
+            if re.search('刑法', SPA_list[i]) != None and re.search('中華民國刑法', SPA_list[i]) == None:
+                SPA_list[i] = '中華民國'+SPA_list[i]
+
+    return SPA_list
