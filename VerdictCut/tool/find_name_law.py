@@ -1,5 +1,6 @@
 import json
 import re
+import cn2an
 from ..find_roles import find_roles
 from ..find_laws import find_laws
 from ..find_laws import get_all_laws_list
@@ -26,10 +27,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
     # init object for each person
     for name in name_list:
         name_and_law[name] = []
-    # 如果只有一個被告 則回傳附錄法條即可
-    if len(name_list) == 1:
-        name_and_law[name] = appendix_laws_list
-        return name_and_law
+   
 
     for name in name_list:
         for text in text_list:
@@ -42,6 +40,19 @@ def find_name_and_law(judgement, break_line='\r\n'):
                         name_and_law[name].extend(SPA_list)
         # 去除重複
         name_and_law[name] = list(set(name_and_law[name]))
+
+    # 如果只有一個被告跟附錄法條有找到，或者沒抓到論罪科刑
+    if (len(name_list) == 1 and len(appendix_laws_list)!=0) or check_name_and_law(name_list,name_and_law)==False:
+        if len(name_list) == 1:
+            # 如果只有一個被告 則回傳附錄法條即可
+            name_and_law[name] = appendix_laws_list
+        else:
+            # 兩個被告都犯一樣的罪，導致論罪科刑沒有特別提被告們的名字
+            for name in name_list:
+                name_and_law[name] = appendix_laws_list
+        return name_and_law
+    elif check_name_and_law(name_list,name_and_law) and len(appendix_laws_list)==0:
+        return name_and_law
 
     for name, laws_list in name_and_law.items():
         # 複製
@@ -91,6 +102,8 @@ def clean_text(judgement, break_line='\r\n'):
 
 
 def find_SPA(law, text):
+    # 先轉把中文數字轉成阿拉伯數字
+    text = cn2an.transform(text,'cn2an')
     SPA_list = []
 
     regex_SPA = "第\d*條第\d*項第\d*款"
@@ -106,6 +119,7 @@ def find_SPA(law, text):
     SPA_list.extend(set(SPA_list))
     SPA_list.extend(set(PA_list))
     SPA_list.extend(set(A_list))
+    # if len(SPA_list)==0:
 
     SPA_list_copy = SPA_list.copy()
     # 保留含有細項的法條
@@ -144,3 +158,12 @@ def translate(appendix_laws_list, SPA_list):
                 SPA_list[i] = '中華民國'+SPA_list[i]
 
     return SPA_list
+
+def check_name_and_law(name_list,name_and_law):
+    # 檢查是否有抓到論罪科刑的法條
+    bool_value=False
+    for name in name_list:
+        if len(name_and_law[name])!=0:
+            bool_value=True
+            return bool_value
+    return bool_value
