@@ -20,6 +20,9 @@ def find_laws(judgement, break_line='\r\n'):
                 # print(key,regex_law(law,data_text))
                 processed_law = clean_data(
                     regex_law(law, data_text), break_line)
+                # 避免 一  公司法規定之公司負責人 雜訊 也加進來
+                if re.search("^"+law+"第",processed_law)== None:
+                    continue
                 if processed_law in laws_list:
                     continue
                 else:
