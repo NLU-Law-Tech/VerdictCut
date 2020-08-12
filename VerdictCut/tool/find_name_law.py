@@ -103,10 +103,10 @@ def clean_text(judgement, break_line='\r\n'):
 
 def find_SPA(law, text):
     # 先轉把中文數字轉成阿拉伯數字
-    try:
-        text = cn2an.transform(text,'cn2an')
-    except:
-        print(text)
+    # try:
+    #     text = cn2an.transform(text,'cn2an')
+    # except:
+    #     print(text)
         
     SPA_list = []
 
