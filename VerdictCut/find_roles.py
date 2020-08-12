@@ -41,6 +41,9 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
                 break
             elif(re.match(r"^　+.+$", cj_doc_row_keep_full_space)):
                 _role = last_role_flag
+                # 濾掉被告雜訊
+                if cj_doc_row_keep_full_space[6:7]=="　":
+                    break
                 target_name = cj_doc_row_keep_full_space.replace("　", "")
                 if(last_role_flag != 'undefine'):
                     # print(role,target_name)
