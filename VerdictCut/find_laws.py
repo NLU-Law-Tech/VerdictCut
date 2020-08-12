@@ -12,12 +12,21 @@ def find_laws(judgement, break_line='\r\n'):
         judgement, appendix_law_list, table_list)
     law_paragraph_list = law_paragraph.split(break_line)
     laws_list = []
-    for data_text in (law_paragraph_list):
+    last_law_flag=""
+    for data_text in (law_paragraph_list):  
         for law in all_laws_list:
             if law in data_text:
+                last_law_flag=law
                 # print(key,regex_law(law,data_text))
                 processed_law = clean_data(
                     regex_law(law, data_text), break_line)
+                if processed_law in laws_list:
+                    continue
+                else:
+                    laws_list.append(processed_law)
+            elif last_law_flag!="" and re.search("^第\s*\d*\s*條",data_text)!=None:
+                processed_law = clean_data(
+                    regex_law(last_law_flag, last_law_flag+data_text), break_line)
                 if processed_law in laws_list:
                     continue
                 else:

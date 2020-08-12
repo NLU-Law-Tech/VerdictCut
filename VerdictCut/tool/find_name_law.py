@@ -18,7 +18,6 @@ def find_name_and_law(judgement, break_line='\r\n'):
     people_dict = find_roles(judgement, target_roles=[
                              '被告'], break_line=break_line)
     name_list = find_name(people_dict)
-
     # 找執掌法條
     all_laws_list = get_all_laws_list()
     # 從論罪科刑裡面找法條
