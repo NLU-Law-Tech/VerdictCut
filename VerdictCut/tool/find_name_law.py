@@ -10,6 +10,7 @@ from ..find_justice import find_justice
 def find_name_and_law(judgement, break_line='\r\n'):
     # 找附錄法條
     appendix_laws_list = find_laws(judgement, break_line)
+    appendix_laws_list = add_ROC(appendix_laws_list)
     # 找論罪科刑
     justice = clean_text(find_justice(judgement), break_line)
 
@@ -27,7 +28,6 @@ def find_name_and_law(judgement, break_line='\r\n'):
     # init object for each person
     for name in name_list:
         name_and_law[name] = []
-   
 
     for name in name_list:
         for text in text_list:
@@ -35,14 +35,14 @@ def find_name_and_law(judgement, break_line='\r\n'):
                 for law in all_laws_list:
                     # 若有找到法條  把那些第幾項第幾條第幾款都列出來
                     if re.search(law, text) != None:
-                        SPA_list = translate(
-                            appendix_laws_list, find_SPA(law, text))
+                        SPA_list = find_SPA(law, text)
+                        SPA_list = add_ROC(SPA_list)
                         name_and_law[name].extend(SPA_list)
         # 去除重複
         name_and_law[name] = list(set(name_and_law[name]))
 
     # 如果只有一個被告跟附錄法條有找到，或者沒抓到論罪科刑
-    if (len(name_list) == 1 and len(appendix_laws_list)!=0) or check_name_and_law(name_list,name_and_law)==False:
+    if (len(name_list) == 1 and len(appendix_laws_list) != 0) or check_name_and_law(name_list, name_and_law) == False:
         if len(name_list) == 1:
             # 如果只有一個被告 則回傳附錄法條即可
             name_and_law[name] = appendix_laws_list
@@ -51,7 +51,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
             for name in name_list:
                 name_and_law[name] = appendix_laws_list
         return name_and_law
-    elif check_name_and_law(name_list,name_and_law) and len(appendix_laws_list)==0:
+    elif check_name_and_law(name_list, name_and_law) and len(appendix_laws_list) == 0:
         return name_and_law
 
     for name, laws_list in name_and_law.items():
@@ -67,13 +67,13 @@ def find_name_and_law(judgement, break_line='\r\n'):
                     del_para_law = backspace_SP('第\d*項', law)
                     if del_para_law not in appendix_laws_list:
                         # 換另一種方法找
-                        k=0
+                        k = 0
                         for appendix_law in appendix_laws_list:
                             # 對每個附錄法條都檢查是否含有剩下條的法
-                            if re.search(del_para_law,appendix_law) == None:
-                                k+=1
+                            if re.search(del_para_law, appendix_law) == None:
+                                k += 1
                         # 還是沒有的話就刪除該法條
-                        if k==len(appendix_laws_list):
+                        if k == len(appendix_laws_list):
                             laws_list_copy.remove(law)
         name_and_law[name] = laws_list_copy
     return name_and_law
@@ -107,7 +107,7 @@ def find_SPA(law, text):
     #     text = cn2an.transform(text,'cn2an')
     # except:
     #     print(text)
-        
+
     SPA_list = []
 
     regex_SPA = "第\d*條第\d*項第\d*款"
@@ -163,11 +163,20 @@ def translate(appendix_laws_list, SPA_list):
 
     return SPA_list
 
-def check_name_and_law(name_list,name_and_law):
+
+def check_name_and_law(name_list, name_and_law):
     # 檢查是否有抓到論罪科刑的法條
-    bool_value=False
+    bool_value = False
     for name in name_list:
-        if len(name_and_law[name])!=0:
-            bool_value=True
+        if len(name_and_law[name]) != 0:
+            bool_value = True
             return bool_value
     return bool_value
+
+
+def add_ROC(law_list):
+    # 只要只有寫到刑法第幾條 刑法前面無字元  前面全部加上中華民國
+    for i in range(len(law_list)):
+        if re.search("^刑法", law_list[i]) != None:
+            law_list[i] = "中華民國"+law_list[i]
+    return law_list
