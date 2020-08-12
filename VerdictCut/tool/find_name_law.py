@@ -8,8 +8,6 @@ from ..find_justice import find_justice
 
 
 def find_name_and_law(judgement, break_line='\r\n'):
-    # test
-    print("123")
     # 找附錄法條
     appendix_laws_list = find_laws(judgement, break_line)
     appendix_laws_list = add_ROC(appendix_laws_list)
