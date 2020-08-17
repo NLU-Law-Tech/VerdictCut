@@ -5,6 +5,9 @@ import setuptools
 
 with open("Discription.md", "r",encoding="utf-8") as fh:
     long_description = fh.read()
+    
+with open('requirements.txt','r',encoding = 'utf-8') as f:
+    requirements = f.read().split("\n")
 
 setuptools.setup(
     name="VerdictCut", # 
@@ -22,4 +25,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    install_requires = requirements
 )
