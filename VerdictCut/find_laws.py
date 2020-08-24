@@ -2,22 +2,47 @@
 import json
 import re
 
-def find_laws(judgement,break_line='\r\n'):
-    appendix_law_list=get_appendix_law_list()
-    table_list=get_table_list()
-    all_laws_list=get_all_laws_list()
-    law_paragraph= extract_law_paragraph(judgement,appendix_law_list,table_list)
-    law_paragraph_list=law_paragraph.split(break_line)
-    laws_list=[]
-    for data_text in (law_paragraph_list):
-            for law in all_laws_list:
-                if law in data_text:
-                    # print(key,regex_law(law,data_text))
-                    processed_law=clean_data(regex_law(law,data_text),break_line)        
-                    if processed_law in laws_list:
-                        continue
-                    else:
-                        laws_list.append(processed_law)
+# 找附錄法條
+def find_laws(judgement, break_line='\r\n'):
+    appendix_law_list = get_appendix_law_list()
+    table_list = get_table_list()
+    all_laws_list = get_all_laws_list()
+    law_paragraph = extract_law_paragraph(
+        judgement, appendix_law_list, table_list)
+    law_paragraph_list = law_paragraph.split(break_line)
+    laws_list = []
+    last_law_flag=""
+    for data_text in (law_paragraph_list):  
+        for law in all_laws_list:
+            if law in data_text:
+                last_law_flag=law
+                # print(key,regex_law(law,data_text))
+                processed_law = clean_data(
+                    regex_law(law, data_text), break_line)
+                # 避免 一  公司法規定之公司負責人 雜訊 也加進來
+                if re.search("^"+law+"第",processed_law)== None:
+                    continue
+                if processed_law in laws_list:
+                    continue
+                else:
+                    laws_list.append(processed_law)
+            elif last_law_flag!="" and re.search("^第\s*\d*\s*條",data_text)!=None:
+                processed_law = clean_data(
+                    regex_law(last_law_flag, last_law_flag+data_text), break_line)
+                if processed_law in laws_list:
+                    continue
+                else:
+                    laws_list.append(processed_law)
+    # 如果中華民國刑法已經找到,就刪除刑法的部分
+    # 保留含有細項的法條
+    laws_list_copy = laws_list.copy()
+    for law_c in laws_list_copy:
+        for law in laws_list:
+            if law_c == law:
+                continue
+            else:
+                if law in law_c and len(law_c) > len(law):
+                    laws_list.remove(law)
     return laws_list
 
 def regex_law(law,text):
@@ -99,11 +124,12 @@ def extract_law_paragraph(text,appendix_law_list,table_list):
 def get_appendix_law_list():
     appendix_law_list =[
     "\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條"
-    "\s*附\s*錄\s*本\s*件\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條\s*："
-    "\s*附\s*本\s*件\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條"
-    "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條"
-    "\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條\s*："
-    "\s*附\s*錄\s*：\s*本\s*案\s*論\s*罪\s*科\s*刑\s*法\s*條"
+    "\s*附\s*錄\s*本\s*件\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條\s*：",
+    "\s*附\s*本\s*件\s*論\s*罪\s*科\s*刑\s*依\s*據\s*之\s*法\s*條",
+    "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*之\s*法\s*律\s*條\s*文",
+    "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條",
+    "\s*附\s*錄\s*本\s*案\s*論\s*罪\s*科\s*刑\s*之\s*法\s*條\s*：",
+    "\s*附\s*錄\s*：\s*本\s*案\s*論\s*罪\s*科\s*刑\s*法\s*條",
     "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*科\s*刑\s*法\s*條",
     "\s*附\s*錄\s*本\s*罪\s*論\s*罪\s*科\s*刑\s*法\s*條",
     "\s*附\s*錄\s*本\s*判\s*決\s*論\s*罪\s*之\s*法\s*條",
