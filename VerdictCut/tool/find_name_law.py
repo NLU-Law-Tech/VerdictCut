@@ -36,6 +36,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
                     if re.search(law, text) != None:
                         SPA_list = find_SPA(law, text)
                         SPA_list = add_ROC(SPA_list)
+                        SPA_list = trans_tai_to_TAI(SPA_list)
                         name_and_law[name].extend(SPA_list)
         # 去除重複
         name_and_law[name] = list(set(name_and_law[name]))
@@ -179,3 +180,12 @@ def add_ROC(law_list):
         if re.search("^刑法", law_list[i]) != None:
             law_list[i] = "中華民國"+law_list[i]
     return law_list
+
+def trans_tai_to_TAI(law_list):
+    # 把台都轉成臺
+    for i in range(len(law_list)):
+        if "台" in law_list[i]:
+            law_list[i]=str(law_list[i]).replace("台","臺")
+    
+    return law_list
+            
