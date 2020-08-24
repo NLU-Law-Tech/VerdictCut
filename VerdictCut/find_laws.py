@@ -46,6 +46,8 @@ def find_laws(judgement, break_line='\r\n'):
     return laws_list
 
 def regex_law(law,text):
+    # 為了解決刑法第1條、第2條  這個例子
+    # 以頓點來切割  (記錄問題)
     # 先找"款"  找到就把款後面的字去掉
     regx_text="條例"
     result=""
