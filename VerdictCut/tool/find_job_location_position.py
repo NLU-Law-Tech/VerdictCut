@@ -1,8 +1,10 @@
 import re
 
-def find_job_location(judgement,job_list,location_list, break_line='\r\n'):
+def find_job_location_position(judgement,job_list,location_list, break_line='\r\n'):
     all_data_dict={}
     clean_judgement = re.sub(break_line, "", re.sub(r"\s+", "", judgement))
+    # 去括號內容
+    clean_judgement=del_brackets_content(clean_judgement)
     judgement_list=re.split("，|。",clean_judgement)
     # 先找有matched的
     matched_location_list=[]
@@ -72,11 +74,28 @@ def find_position_dict(kind,text_list,judgement):
         position_dict_list.append(text_position_dict.copy())
     return position_dict_list
 
+def del_brackets_content(context):
+    left_bracket="（"
+    right_bracket="）"
+    # token_list=[]
+    new_context=""
+    add_flag=True
+    for token in context:
+        if token==left_bracket:
+            add_flag=False
+        if token==right_bracket:
+            add_flag=True
+            continue
+        if add_flag:
+            new_context=new_context+token
+    return new_context
+
+
 if __name__ == "__main__":
     f = open(
-        "/root/project/law_data/5d30de97cbd1c48dc98a329e.txt", 'r', newline="", encoding='utf-8')
+        "/root/project/law_data/test1.txt", 'r', newline="", encoding='utf-8')
     judgement = f.read()
-    job_list=["檢察官","公務員","車手","車手頭","監管科人員","青壯年","包括"]
-    location_list=["詐欺集團","臺灣臺北地方檢察署","臺灣新竹地方檢察署","政府機關","本院","新竹縣政府警察局","竹北"]
+    job_list=["校長"]
+    location_list=["德音國民小學","修德國民小學","金馬食品工業有限公司"]
     # 先去空白 再去\r\n
-    find_job_location(judgement,job_list,location_list)
+    find_job_location_position(judgement,job_list,location_list)
