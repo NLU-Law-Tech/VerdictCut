@@ -15,6 +15,4 @@ def normalize_position(unnormalization_position, position_list):
                 _current_len = _len                        
                 _current_position = position
     
-    if(_current_position != ''):
-        return _current_position
-    return unnormalization_position
+    return _current_position
