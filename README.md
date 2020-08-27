@@ -29,6 +29,10 @@
         |-- SOURCES.txt
         |-- top_level.txt
 ```
+# Install
+```sh
+pip install -U git+https://github.com/seanbbear/VerdictCut.git
+```
 ## API
 ### VerdictCut.find_fact
 ### VerdictCut.find_justice
