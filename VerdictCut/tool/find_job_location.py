@@ -1,6 +1,6 @@
 import re
 
-def find_job_location_position(judgement,job_list,location_list, break_line='\r\n'):
+def find_job_location(judgement,job_list,location_list, break_line='\r\n'):
     all_data_dict={}
     clean_judgement = re.sub(break_line, "", re.sub(r"\s+", "", judgement))
     judgement_list=re.split("，|。",clean_judgement)
@@ -79,4 +79,4 @@ if __name__ == "__main__":
     job_list=["檢察官","公務員","車手","車手頭","監管科人員","青壯年","包括"]
     location_list=["詐欺集團","臺灣臺北地方檢察署","臺灣新竹地方檢察署","政府機關","本院","新竹縣政府警察局","竹北"]
     # 先去空白 再去\r\n
-    find_job_location_position(judgement,job_list,location_list)
+    find_job_location(judgement,job_list,location_list)
