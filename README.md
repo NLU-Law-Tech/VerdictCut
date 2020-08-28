@@ -13,8 +13,8 @@ pip install VerdictCut
 ```
 ## 使用
 - `break_line`: 文件本身使用的換行符號，請務必設置正確
-    - windows(CRLF): '\r\n'
-    - linux(LF): '\n'
+    - windows(CRLF): `\r\n`
+    - linux(LF): `\n`
 ### 找人物
 ```python
 def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'], break_line='\r\n', name_length_limit=25, search_rows_limit=100):
