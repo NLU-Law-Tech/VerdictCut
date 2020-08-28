@@ -42,7 +42,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
         name_and_law[name] = list(set(name_and_law[name]))
 
     # 如果只有一個被告跟附錄法條有找到，或者沒抓到論罪科刑
-    if (len(name_list) == 1 and len(appendix_laws_list) != 0) or check_name_and_law(name_list, name_and_law) == False:
+    if (len(name_list) == 1 ) or check_name_and_law(name_list, name_and_law) == False:
         if len(name_list) == 1:
             # 如果只有一個被告 則回傳附錄法條即可
             name_and_law[name] = appendix_laws_list
