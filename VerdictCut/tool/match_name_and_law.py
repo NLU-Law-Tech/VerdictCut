@@ -7,7 +7,7 @@ from ..find_laws import get_all_laws_list
 from ..find_justice import find_justice
 
 
-def find_name_and_law(judgement, break_line='\r\n'):
+def match_name_and_law(judgement, name_list, break_line='\r\n'):
     # 找附錄法條
     appendix_laws_list = find_laws(judgement, break_line)
     appendix_laws_list = add_ROC(appendix_laws_list)
@@ -17,7 +17,7 @@ def find_name_and_law(judgement, break_line='\r\n'):
     # 找被告
     people_dict = find_roles(judgement, target_roles=[
                              '被告'], break_line=break_line)
-    name_list = find_name(people_dict)
+    # name_list = find_name(people_dict)
     # 找執掌法條
     all_laws_list = get_all_laws_list()
     # 從論罪科刑裡面找法條
