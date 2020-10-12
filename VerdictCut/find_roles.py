@@ -20,6 +20,9 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
     last_role_flag = 'undefine'
     last_index = 1
     for index, cj_doc_row in enumerate(cj_doc_rows):
+        #有些時候被告前面會有空白，導致解析錯誤
+        if re.search(r"被\s*告|上\s*訴\s*人", cj_doc_row):
+            cj_doc_row = cj_doc_row.strip()
         cj_doc_row = re.sub(encode_reg_role_clean_chars, "", cj_doc_row)
         # 找到主文就可以結束了
         if cj_doc_row == "主文":
