@@ -89,7 +89,7 @@ def extract_law_paragraph(text,appendix_law_list,table_list):
     result=""
     # 初始化存放附錄法條字的位置字典
     appendix_law_position_dict={}
-    key =""
+    # key =""
     # 找到含有"附錄法條"的位置，可能會找到不只一個位置
     for appendix_law in appendix_law_list:
         # 有找到才做下去
