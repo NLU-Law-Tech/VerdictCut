@@ -12,7 +12,13 @@ test_data = [
 		[{'name': '謝俊儒', 'role': '被告'}]),
 	#沒有被告的判決書
 	("aaaaaaaaaa", 
-		[]),
+		"No defendant"),
+	#主文前沒有被告，主文後有被告的判決書
+	("臺灣高等法院刑事判決\r\n109年度上更一字第102號\r\n上  訴  人 \r\n即  上  訴  人  謝俊儒\r\n\r\n\r\n指定辯護人  本院公設辯護人陳德仁 \r\n上列上訴人因違反毒品危害防制條例等案件，不服臺灣新竹地方法院107年度訴字第201、804號，中華民國108年1月22日第一審判決（起訴案號：臺灣新竹地方檢察署107年度偵緝字第102、103號），提起上訴，本院判決後，經最高法院撤銷發回更審（109年度台上字第2829號），本院判決如下：\r\n    主  文\r\n原判決關於被告謝俊儒部分撤銷。", 
+		"No defendant"),
+	#英文姓名
+	("臺灣新竹地方法院刑事簡易判決\r\n108年度竹簡字第1401號\r\n聲  請  人  臺灣新竹地方檢察署檢察官\r\n被      告  MICHAEL DENNIS ASH（加拿大籍）\r\n\r\n\r\n\r\n\r\n\r\n上列被告因偽造文書案件，經檢察官聲請以簡易判決處刑（108年度偵緝字第782號），本院判決如下：\r\n     主  文\r\nMICHAEL DENNIS ASH犯行使偽造特種文書罪，處拘役肆拾日，如易科罰金，以新臺幣壹仟元折算壹日。", 
+		[{'name': 'MICHAEL DENNIS ASH', 'role': '被告'}]),
 	]
 
 @pytest.mark.parametrize("test_input,expected", test_data,
@@ -20,6 +26,8 @@ test_data = [
                              "即被告中間是全形空白，後續的被告也是全型空白開頭",
                              "即被告中間是半形空白",
                              "無被告測試",
+                             "主文前沒有被告，主文後有被告的判決書",
+                             "英文被告測試"
                          ])
 def test1(test_input, expected):
 	assert verdict_find_roles(test_input, target_roles=['被告'], break_line='\r\n')==expected

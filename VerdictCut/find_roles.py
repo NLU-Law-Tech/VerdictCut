@@ -19,10 +19,14 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
     encode_reg_role_clean_chars = "|".join(role_clean_patterns)
     last_role_flag = 'undefine'
     last_index = 1
+    have_defendant = False
     for index, cj_doc_row in enumerate(cj_doc_rows):
         #有些時候被告前面會有空白，導致解析錯誤
         if re.search(r"被\s*告|上\s*訴\s*人", cj_doc_row):
             cj_doc_row = cj_doc_row.strip()
+        #判斷這篇有沒有出現被告，如果沒有則返回特殊訊息
+        if re.search(r"被\s*告", cj_doc_row):
+            have_defendant = True
         cj_doc_row = re.sub(encode_reg_role_clean_chars, "", cj_doc_row)
         # 找到主文就可以結束了
         if cj_doc_row == "主文":
@@ -58,6 +62,9 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
 
                 break
     # 過濾，只留要的
+    if not have_defendant:
+        return "No defendant"
+
     for person in people[:]:
         if person['role'] not in target_roles:
             people.remove(person)
