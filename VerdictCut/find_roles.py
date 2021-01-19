@@ -12,7 +12,7 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
     search_rows_limit:int 要搜尋cj_doc的前x列
     """
     _target_roles = ['上訴人', '被告', '選任辯護人']  # do not change this
-    role_clean_patterns = ["^即　", " ", "律師$", "（.*）", "\(.*\)"]
+    role_clean_patterns = ["^即(　| )", " ", "律師$", "（.*）", "\(.*\)"]
     cj_doc_rows = cj_doc.split(break_line)[:search_rows_limit]
 
     people = []
