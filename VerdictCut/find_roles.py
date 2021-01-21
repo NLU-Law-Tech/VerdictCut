@@ -13,6 +13,9 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
     """
     _target_roles = ['上訴人', '被告', '選任辯護人']  # do not change this
     role_clean_patterns = ["^即(　| )", " ", "律師$", "（.*）", "\(.*\)"]
+    #有些判決書不知道為何換行符號都被半形逗點取代掉
+    if cj_doc.count(',') > cj_doc.count('\n'):
+    	break_line = ','
     cj_doc_rows = cj_doc.split(break_line)[:search_rows_limit]
 
     people = []
@@ -28,8 +31,8 @@ def find_roles(cj_doc, target_roles=['上訴人', '被告', '選任辯護人'],
         if re.search(r"被\s*告", cj_doc_row):
             have_defendant = True
         cj_doc_row = re.sub(encode_reg_role_clean_chars, "", cj_doc_row)
-        # 找到主文就可以結束了
-        if cj_doc_row == "主文":
+        # 找到主文就可以結束了, 有些主文中間存在全形空白
+        if cj_doc_row == "主文" or re.match(r"\s*主\s*文\s*", cj_doc_row):
             break
         cj_doc_row_keep_full_space = cj_doc_row
         cj_doc_row = cj_doc_row.replace("　", "")
