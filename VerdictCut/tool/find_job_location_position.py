@@ -52,9 +52,9 @@ def regularize(text):
     regex_text=""
     for i,token in enumerate(text):
         if i==0:
-            regex_text=regex_list+token+regex_list
+            regex_text=regex_list+re.escape(token)+regex_list
         else:
-            regex_text=regex_text+token+regex_list
+            regex_text=regex_text+re.escape(token)+regex_list
         
     return regex_text
 
